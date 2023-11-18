@@ -1,0 +1,17 @@
+{
+  "1": {
+    "politicalPartyName": "親民黨",
+    "presidentName": "宋楚瑜",
+    "vicePresidentName": "余湘"
+  },
+  "2": {
+    "politicalPartyName": "中國國民黨",
+    "presidentName": "韓國瑜",
+    "vicePresidentName": "張善政"
+  },
+  "3": {
+    "politicalPartyName": "民主進步黨",
+    "presidentName": "蔡英文",
+    "vicePresidentName": "賴清德"
+  }
+}
