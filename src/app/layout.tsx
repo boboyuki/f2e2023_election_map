@@ -3,10 +3,12 @@ import Header from '@/components/header/header'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <Header />
-      <main>{children}</main>
-    </>
+    <html lang="zh">
+      <body>
+        <Header />
+        <main>{children}</main>
+      </body>
+    </html>
   )
 }
 
