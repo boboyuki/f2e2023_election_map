@@ -23,7 +23,7 @@ module.exports = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
+          DEFAULT: '#1282A2',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
@@ -50,6 +50,12 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        header: {
+          DEFAULT: 'rgba(255, 255, 255, 0.8)',
+        },
+      },
+      boxShadow: {
+        primary: '0 20px 20px -16px hsla(var(--color-primary), 0.60)',
       },
       borderRadius: {
         lg: 'var(--radius)',
