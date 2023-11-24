@@ -2,16 +2,22 @@
   "1": {
     "politicalPartyName": "親民黨",
     "presidentName": "宋楚瑜",
-    "vicePresidentName": "余湘"
+    "vicePresidentName": "余湘",
+    "voteCount": 608590,
+    "voteRate": 0.0426
   },
   "2": {
     "politicalPartyName": "中國國民黨",
     "presidentName": "韓國瑜",
-    "vicePresidentName": "張善政"
+    "vicePresidentName": "張善政",
+    "voteCount": 5522119,
+    "voteRate": 0.3861
   },
   "3": {
     "politicalPartyName": "民主進步黨",
     "presidentName": "蔡英文",
-    "vicePresidentName": "賴清德"
+    "vicePresidentName": "賴清德",
+    "voteCount": 8170231,
+    "voteRate": 0.5713
   }
 }
