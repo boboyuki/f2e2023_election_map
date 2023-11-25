@@ -4,7 +4,7 @@ const PersonCard = () => {
   return (
     <div
       className="flex h-[163px] border-solid border-mainWhite border-2 border-opacity-40 w-full relative text-mainWhite rounded-3xl overflow-hidden
-    sm:flex-column sm:h-full sm:w-1/3 sm:max-h-[600px] bg-white/40"
+    sm:flex-column sm:h-full sm:w-1/3 sm:max-h-[600px] bg-white/40 backdrop-blur-lg"
     >
       <div className="flex-1 h-full relative sm:absolute sm:bottom-0 sm:left-0 sm:w-full sm:max-h-[600px]">
         <Image

@@ -1,4 +1,5 @@
 import '@/app/globals.css'
+import ParticlesBackground from '@/components/background/background'
 import Header from '@/components/header/header'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -6,7 +7,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <html lang="zh">
       <body>
         <Header />
-        <main>{children}</main>
+        <ParticlesBackground>
+          <main>{children}</main>
+        </ParticlesBackground>
       </body>
     </html>
   )
