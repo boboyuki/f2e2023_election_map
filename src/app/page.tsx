@@ -1,20 +1,21 @@
-'use client'
+'use client';
 
-import PersonCard from '@/components/person-card/person-card'
-import { Button } from '@/components/ui/button'
-import candidateInfo from '../../public/vote-data/candidateDetail.json'
-import { useState } from 'react'
-
-const candidateArr = Object.values(candidateInfo)
+import PersonCard from '@/components/person-card/person-card';
+import { Button } from '@/components/ui/button';
+import candidateInfo from '../../public/vote-data/candidateDetail.json';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+const candidateArr = Object.values(candidateInfo);
 
 function Home() {
+  const router = useRouter();
   const [selectedCandidate, setSelectedCandidate] = useState<string | null>(
     null,
-  )
+  );
 
   const handleSelectCandidate = (id: string | null) => {
-    setSelectedCandidate(id)
-  }
+    setSelectedCandidate(id);
+  };
 
   return (
     <div className="w-screen h-screen">
@@ -36,12 +37,15 @@ function Home() {
             platformContext={candidate.platformContext}
           />
         ))}
-        <Button className="sm:hidden bg-primary shadow-primary self-center">
+        <Button
+          className="sm:hidden bg-primary shadow-primary self-center"
+          onClick={() => router.push('dashboard')}
+        >
           進入地圖 →
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

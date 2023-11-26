@@ -1,5 +1,6 @@
-import { Button } from '../ui/button'
-import Image from 'next/image'
+import Image from 'next/image';
+import { NavigationButton } from '../navigation-button/navigation-button';
+import { Button } from '../ui/button';
 
 const Header = () => {
   return (
@@ -7,11 +8,9 @@ const Header = () => {
       <div className="h-[74.44px] w-[287px] min-w-[287px] min-h-[74.44px] relative">
         <Image src="/img/Logo.png" alt="logo" fill />
       </div>
-      <Button className="hidden sm:block bg-primary shadow-primary">
-        進入地圖
-      </Button>
+      <NavigationButton />
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
