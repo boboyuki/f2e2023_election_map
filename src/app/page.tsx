@@ -18,8 +18,8 @@ function Home() {
   };
 
   return (
-    <div className="w-screen h-screen">
-      <div className="pt-[148px] pb-[48px] px-[16px] sm:pt-[160px] sm:pb-[60px] sm:px-[80px] flex flex-col h-full w-full gap-4 sm:flex-row sm:gap-5">
+    <div className="w-screen">
+      <div className="mb-6 pt-[148px] pb-[48px] px-[16px] md:pt-[160px] md:pb-[60px] md:px-[80px] flex flex-col h-full w-full gap-4 md:flex-row md:gap-5">
         {candidateArr.map((candidate) => (
           <PersonCard
             key={candidate.id}
@@ -38,7 +38,7 @@ function Home() {
           />
         ))}
         <Button
-          className="sm:hidden bg-primary shadow-primary self-center"
+          className="md:hidden bg-primary shadow-primary self-center"
           onClick={() => router.push('dashboard')}
         >
           進入地圖 →
