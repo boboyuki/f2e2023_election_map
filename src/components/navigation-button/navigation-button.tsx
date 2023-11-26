@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 const routeConfig: Record<
   string,
   {
@@ -26,11 +27,11 @@ export const NavigationButton = () => {
   const pathname = usePathname();
   return (
     <Button
-      className={clsx('hidden sm:block', routeConfig[pathname].styles)}
+      className={clsx('hidden sm:block', routeConfig[pathname]?.styles || '')}
       asChild
     >
-      <Link href={routeConfig[pathname].link}>
-        {routeConfig[pathname].text}
+      <Link href={routeConfig[pathname]?.link || ''}>
+        {routeConfig[pathname]?.text || ''}
       </Link>
     </Button>
   );
