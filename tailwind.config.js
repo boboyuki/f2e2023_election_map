@@ -27,7 +27,7 @@ module.exports = {
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
+          DEFAULT: '#FFFFFF66',
           foreground: 'hsl(var(--secondary-foreground))',
         },
         destructive: {
@@ -59,6 +59,7 @@ module.exports = {
       },
       boxShadow: {
         primary: '0 20px 20px -16px hsla(var(--color-primary), 0.60)',
+        secondary: '0 20px 20px -16px hsla(var(--color-secondary), 0.60)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -92,4 +93,4 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-}
+};
