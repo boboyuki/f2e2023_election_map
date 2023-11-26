@@ -2,34 +2,40 @@
   "1": {
     "id": 1,
     "candidateNumber": "①",
-    "politicalPartyName": "親民黨",
-    "presidentName": "宋楚瑜",
-    "vicePresidentName": "余湘",
+    "politicalPartyName": "美丁美黨",
+    "presidentName": "喵夫人",
+    "vicePresidentName": "和平喵",
     "voteCount": 608590,
     "voteRate": 0.042,
     "imgUrl": "/img/candidate1.png",
-    "mainColor": "#FF8C22"
+    "mainColor": "#FF8C22",
+    "platformTitle": "愛護動物，共創和諧未來！",
+    "platformContext": "- 推動貓咪和人類之間的更緊密關係，建立更和諧的社會。\n- 建立更多的貓咪公園和休息區，促進社區的互動和共融。\n- 提倡愛護動物，強化動物福利法規，打擊虐待行為。\n- 促進教育，鼓勵學校開設有關貓咪和動物保護的課程。"
   },
   "2": {
     "id": 2,
     "candidateNumber": "②",
-    "politicalPartyName": "中國國民黨",
-    "presidentName": "韓國瑜",
-    "vicePresidentName": "張善政",
+    "politicalPartyName": "麥當黨",
+    "presidentName": "橘博士",
+    "vicePresidentName": "新貴貓",
     "voteCount": 5522119,
     "voteRate": 0.386,
     "imgUrl": "/img/candidate2.png",
-    "mainColor": "#4299FF"
+    "mainColor": "#4299FF",
+    "platformTitle": "科技力、環保愛，貓咪新世代",
+    "platformContext": "- 投資貓科技公司，促進貓咪醫學、營養和娛樂領域的創新。\n- 推動環保政策，減少一次性塑料使用，鼓勵可持續發展。\n- 建立貓咪綠能計畫，促進可再生能源的使用。\n- 支持動物友善城市計畫，鼓勵更多的貓友好設施。"
   },
   "3": {
     "id": 3,
     "candidateNumber": "③",
-    "politicalPartyName": "民主進步黨",
-    "presidentName": "蔡英文",
-    "vicePresidentName": "賴清德",
+    "politicalPartyName": "丁丁黨",
+    "presidentName": "喵先生",
+    "vicePresidentName": "虎斑王",
     "voteCount": 8170231,
     "voteRate": 0.571,
     "imgUrl": "/img/candidate3.png",
-    "mainColor": "#8EFF71"
+    "mainColor": "#8EFF71",
+    "platformTitle": "與貓咪一同織就美好未來！",
+    "platformContext": "- 加強貓咪教育體系，提倡更多的培訓機會，培養貓咪的才藝和技能。\n- 推動藝術和文化活動，舉辦藝術展覽和音樂節，豐富社區文化生活。\n- 支持文學創作，鼓勵人們分享他們與貓咪相處的故事。\n- 倡導貓咪治療和心理健康，提供更多的資源和支援。"
   }
 }
