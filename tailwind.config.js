@@ -53,6 +53,9 @@ module.exports = {
         header: {
           DEFAULT: 'rgba(255, 255, 255, 0.8)',
         },
+        mainWhite: {
+          DEFAULT: '#FEFCFB',
+        },
       },
       boxShadow: {
         primary: '0 20px 20px -16px hsla(var(--color-primary), 0.60)',
