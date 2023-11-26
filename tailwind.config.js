@@ -74,10 +74,20 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        'grow-height': {
+          from: { height: 0 },
+          to: { height: 'var(--target-height)' },
+        },
+        'grow-width': {
+          from: { width: 0 },
+          to: { width: 'var(--target-width)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'grow-height': 'grow-height 1s ease-out forwards',
+        'grow-width': 'grow-width 1s ease-out forwards',
       },
     },
   },

@@ -1,23 +1,35 @@
 {
   "1": {
+    "id": 1,
+    "candidateNumber": "①",
     "politicalPartyName": "親民黨",
     "presidentName": "宋楚瑜",
     "vicePresidentName": "余湘",
     "voteCount": 608590,
-    "voteRate": 0.0426
+    "voteRate": 0.042,
+    "imgUrl": "/img/candidate1.png",
+    "mainColor": "#FF8C22"
   },
   "2": {
+    "id": 2,
+    "candidateNumber": "②",
     "politicalPartyName": "中國國民黨",
     "presidentName": "韓國瑜",
     "vicePresidentName": "張善政",
     "voteCount": 5522119,
-    "voteRate": 0.3861
+    "voteRate": 0.386,
+    "imgUrl": "/img/candidate2.png",
+    "mainColor": "#4299FF"
   },
   "3": {
+    "id": 3,
+    "candidateNumber": "③",
     "politicalPartyName": "民主進步黨",
     "presidentName": "蔡英文",
     "vicePresidentName": "賴清德",
     "voteCount": 8170231,
-    "voteRate": 0.5713
+    "voteRate": 0.571,
+    "imgUrl": "/img/candidate3.png",
+    "mainColor": "#8EFF71"
   }
 }
