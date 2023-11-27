@@ -27,7 +27,7 @@ export const NavigationButton = () => {
   const pathname = usePathname();
   return (
     <Button
-      className={clsx('hidden sm:block', routeConfig[pathname]?.styles || '')}
+      className={clsx('hidden md:block', routeConfig[pathname]?.styles || '')}
       asChild
     >
       <Link href={routeConfig[pathname]?.link || ''}>
