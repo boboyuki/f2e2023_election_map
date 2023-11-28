@@ -68,7 +68,7 @@ function getStyles(level: LEVEL) {
       )[0]?.politicalPartyName as string;
       return `fill: ${
         colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
-      }; stroke: #000; stroke-width: 1px; opacity: 1; visibility: visible;`;
+      }; stroke: #000; stroke-width: 0.6px; opacity: 1; visibility: visible;`;
     }
     if (level === LEVEL.VILLAGE) {
       const countyId = taiwanArea.cities.find(
@@ -89,9 +89,9 @@ function getStyles(level: LEVEL) {
       )[0]?.politicalPartyName as string;
       return `fill: ${
         colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
-      }; stroke: #000; stroke-width: 1px; opacity: 1; visibility: visible;`;
+      }; stroke: #000; stroke-width: 0.3px; opacity: 1; visibility: visible;`;
     }
-    return 'fill: #ccc; stroke: #000; stroke-width: 1px;';
+    return 'fill: #ccc; stroke: #000; stroke-width: 0.3px;';
   };
 }
 function getRestClassNames(level: LEVEL) {
@@ -129,6 +129,10 @@ export default function Map() {
     village: '',
   });
 
+  const currentMapData = useMemo(() => {
+    return mapData[level];
+  }, [level, mapData]);
+
   const setMapScaleScope = (responsive: Record<string, boolean>) => {
     if (responsive['large']) {
       setScale(9000);
@@ -161,7 +165,6 @@ export default function Map() {
     },
   ) => {
     const url = levelMap[level];
-    // 設定地圖資料 以利後續使用 不用再次取得
     if (level === LEVEL.COUNTY) {
       const mapData = (await d3.json(url)) as unknown as any;
       const geometries = topojson.feature(
@@ -209,17 +212,6 @@ export default function Map() {
     }
   };
 
-  const currentMapData = useMemo(() => {
-    if (level === LEVEL.COUNTY) {
-      return mapData.county;
-    } else if (level === LEVEL.TOWN) {
-      return mapData.town;
-    } else if (level === LEVEL.VILLAGE) {
-      return mapData.village;
-    }
-    return [];
-  }, [level, mapData.county, mapData.town, mapData.village]);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = async (
     mapEl: SVGSVGElement,
@@ -245,11 +237,11 @@ export default function Map() {
       .attr('style', 'width: 100%; height: 100%')
       .on('click', reset)
       .call(zoom as any);
-    const projectMethod = d3.geoMercator().center([121, 24]).scale(scale);
+    const projectMethod = d3.geoMercator().center([121.5, 24.3]).scale(scale);
     const pathGenerator = d3.geoPath().projection(projectMethod);
     const restClassNames = getRestClassNames(level);
     restClassNames.forEach((className) => {
-      mapContainer.selectAll(`.${className} path`).style('opacity', '0');
+      mapContainer.selectAll(`.${className} path`).style('opacity', '0.3');
     });
     mapContainer
       .selectAll(`.${level}`)
@@ -320,7 +312,10 @@ export default function Map() {
   }, [responsive]);
 
   return (
-    <svg className="w-full h-full" ref={map}>
+    <svg
+      className="w-full h-full border-sky-100 border-2 md:border-none"
+      ref={map}
+    >
       {mapData.county.length &&
         mapData.county.map((item) => {
           return (
