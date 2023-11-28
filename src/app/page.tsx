@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import candidateInfo from '../../public/vote-data/candidateDetail.json';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+
 const candidateArr = Object.values(candidateInfo);
 
 function Home() {
