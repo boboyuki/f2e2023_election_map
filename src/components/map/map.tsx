@@ -106,7 +106,16 @@ function getRestClassNames(level: LEVEL) {
   return [];
 }
 
-export default function Map() {
+type MapProps = {
+  currentSelectArea: {
+    county: string;
+    town: string;
+    village: string;
+  };
+  handleSelectArea: (county: string, town: string, village: string) => void;
+};
+
+export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
   const responsive = useResponsive();
   const map = useRef<SVGSVGElement>(null);
   const zoom = d3
@@ -127,15 +136,6 @@ export default function Map() {
   });
   const [level, setLevel] = useState<LEVEL>(LEVEL.COUNTY);
   const [scale, setScale] = useState<number>(5500);
-  const [currentSelectArea, setCurrentSelectArea] = useState<{
-    county: string;
-    town: string;
-    village: string;
-  }>({
-    county: '',
-    town: '',
-    village: '',
-  });
 
   const currentMapData = useMemo(() => {
     return mapData[level];
@@ -193,7 +193,7 @@ export default function Map() {
         mapData.objects['TAIWAN'],
       ) as unknown as FeatureCollection;
       const townMapData = geometries.features.filter((item) => {
-        return item.properties?.['COUNTYNAME'] === currentSelectArea.county;
+        return item.properties?.['COUNTYCODE'] === currentSelectArea.county;
       });
       setMapData((prev) => ({
         ...prev,
@@ -209,8 +209,8 @@ export default function Map() {
       ) as unknown as FeatureCollection;
       const villageMapData = geometries.features.filter((item) => {
         return (
-          item.properties?.['COUNTYNAME'] === currentSelectArea.county &&
-          item.properties?.['TOWNNAME'] === currentSelectArea.town
+          item.properties?.['COUNTYCODE'] === currentSelectArea.county &&
+          item.properties?.['TOWNCODE'] === currentSelectArea.town
         );
       });
       setMapData((prev) => ({
@@ -271,11 +271,12 @@ export default function Map() {
       .on('click', function (event, d) {
         clickTransition(event, d);
         setNextLevel(level);
-        setCurrentSelectArea({
-          county: d.properties?.['COUNTYNAME'],
-          town: d.properties?.['TOWNNAME'] || '',
-          village: d.properties?.['VILLNAME'] || '',
-        });
+        console.log(d.properties?.['TOWNCODE']);
+        handleSelectArea(
+          d.properties?.['COUNTYCODE'],
+          d.properties?.['TOWNCODE'] || '',
+          d.properties?.['VILLCODE'] || '',
+        );
       })
       .append('title')
       .text((d) => getTitle(level, d));
