@@ -13,6 +13,7 @@ import { LEVEL } from '@/app/dashboard/lib/enum';
 import taiwanAreaJson from '../../../public/vote-data/taiwanArea.json';
 import voteDetailJson from '../../../public/vote-data/voteDetail.json';
 import { Button } from '../ui/button';
+import { EPoliticalPartyId } from '@/app/constants';
 const taiwanArea = JSON.parse(JSON.stringify(taiwanAreaJson));
 const voteDetail = JSON.parse(JSON.stringify(voteDetailJson));
 const levelMap: Record<LEVEL, string> = {
@@ -111,8 +112,14 @@ type MapProps = {
     county: string;
     town: string;
     village: string;
+    politicalPartyId?: EPoliticalPartyId;
   };
-  handleSelectArea: (county: string, town: string, village: string) => void;
+  handleSelectArea: (
+    county: string,
+    town: string,
+    village: string,
+    politicalPartyId?: EPoliticalPartyId,
+  ) => void;
 };
 
 export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
@@ -224,6 +231,7 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
     const mapContainer = d3.select(map.current);
     const zoomTransform = mapContainer.node() as SVGSVGElement;
     resetLevel();
+    handleSelectArea('', '', '');
     if (map.current) {
       mapContainer
         .transition()
@@ -275,6 +283,7 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
           d.properties?.['COUNTYCODE'],
           d.properties?.['TOWNCODE'] || '',
           d.properties?.['VILLCODE'] || '',
+          currentSelectArea.politicalPartyId,
         );
       })
       .append('title')

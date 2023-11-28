@@ -229,7 +229,7 @@ export const VoteBar = ({
 
       const voteVillages = townId
         ? ALL_POLITICAL_PARTY_VOTE_VILLAGES.filter((voteVillage) =>
-            voteVillage.id.split('-').join('').includes(townId),
+            voteVillage.id.includes(townId),
           ).map((village) => ({
             id: village.id,
             candidate: village.candidates,
@@ -353,7 +353,7 @@ export const VoteBar = ({
         voteRateChartSvg?.parentElement?.removeChild(chartNode);
       }
     };
-  }, [cityId, townId]);
+  }, [cityId, townId, politicalPartyId]);
 
   return <div ref={svgRef} />;
 };
