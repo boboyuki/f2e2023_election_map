@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
+import { EPoliticalPartyId } from '@/app/constants';
 
 const PersonCard = ({
   politicalPartyName,
@@ -17,6 +18,7 @@ const PersonCard = ({
   selectedCandidate,
   platformTitle,
   platformContext,
+  politicalPartyId,
 }: {
   politicalPartyName: string;
   candidateNumber: string;
@@ -30,6 +32,7 @@ const PersonCard = ({
   selectedCandidate: string | null;
   platformTitle: string;
   platformContext: string;
+  politicalPartyId: EPoliticalPartyId;
 }) => {
   const voteRatePercent = (voteRate * 100).toFixed(1);
 
@@ -140,7 +143,9 @@ const PersonCard = ({
           size="lg"
           asChild
         >
-          <Link href="/dashboard">查看得票分佈 →</Link>
+          <Link href={{ pathname: 'dashboard', query: { politicalPartyId } }}>
+            查看得票分佈 →
+          </Link>
         </Button>
       </div>
     </div>

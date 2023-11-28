@@ -6,8 +6,11 @@ import { EPoliticalPartyId, POLITICAL_PARTY_COLOR } from '@/app/constants';
 import {
   ALL_POLITICAL_PARTY_VOTE_CITIES,
   ALL_POLITICAL_PARTY_VOTE_CITIES_DATA,
+  ALL_POLITICAL_PARTY_VOTE_TOWNS,
   ALL_POLITICAL_PARTY_VOTE_TOWNS_DATA,
+  ALL_POLITICAL_PARTY_VOTE_VILLAGES,
   ALL_POLITICAL_PARTY_VOTE_VILLAGES_DATA,
+  VOTE_CITIES,
 } from './vote-bar.constant';
 import { IVoteArea } from './vote-bar.type';
 
@@ -87,7 +90,7 @@ export const VoteBar = ({
     politicalPartyId && townId
       ? ALL_POLITICAL_PARTY_VOTE_VILLAGES_DATA[politicalPartyId]
           .filter((voteVillage) =>
-            voteVillage.id.split('-').join().includes(townId),
+            voteVillage.id.split('-').join('').includes(townId),
           )
           .map((village) => ({
             id: village.id,
@@ -209,7 +212,33 @@ export const VoteBar = ({
 
     /* 產生所有政黨的長條圖 */
     const generateAllPoliticalPartyVoteBar = () => {
-      const voteCities = ALL_POLITICAL_PARTY_VOTE_CITIES;
+      const voteCities = VOTE_CITIES.map((city) => ({
+        id: city.id,
+        candidate: city.candidate,
+        area: city.city,
+      }));
+
+      const voteTowns = cityId
+        ? ALL_POLITICAL_PARTY_VOTE_TOWNS.filter((voteTown) =>
+            voteTown.id.includes(cityId),
+          ).map((town) => ({
+            id: town.id,
+            candidate: town.candidates,
+            area: town.town,
+          }))
+        : [];
+
+      const voteVillages = townId
+        ? ALL_POLITICAL_PARTY_VOTE_VILLAGES.filter((voteVillage) =>
+            voteVillage.id.split('-').join('').includes(townId),
+          ).map((village) => ({
+            id: village.id,
+            candidate: village.candidates,
+            area: village.village,
+          }))
+        : [];
+
+      const voteAreas = townId ? voteVillages : cityId ? voteTowns : voteCities;
 
       /* create the scales */
       const x = D3.scaleLinear()
@@ -220,7 +249,7 @@ export const VoteBar = ({
         // ])
         .range([marginLeft, width - marginRight]);
       const y = D3.scaleBand()
-        .domain(D3.map(voteCities, (d) => d.city))
+        .domain(D3.map(voteAreas, (d) => d.area))
         .rangeRound([marginTop, height - marginBottom])
         .padding(0.1);
       // .arguments('font-size', '20px')
@@ -231,11 +260,11 @@ export const VoteBar = ({
         .append('g')
         .attr('fill', POLITICAL_PARTY_COLOR[EPoliticalPartyId.DPP])
         .selectAll()
-        .data(voteCities)
+        .data(voteAreas)
         .join('rect')
         .attr('x', x(0))
-        .attr('y', (d) => y(d.city) as number)
-        .attr('width', (d) => x(d.candidates[0]?.voteRate || 0) - x(0))
+        .attr('y', (d) => y(d.area) as number)
+        .attr('width', (d) => x(d.candidate[0]?.voteRate || 0) - x(0))
         .attr('height', y.bandwidth() * 0.5)
         .attr('transform', 'translate(0, 8)');
       // .attr('rx', '5')
@@ -245,15 +274,15 @@ export const VoteBar = ({
         .append('g')
         .attr('fill', POLITICAL_PARTY_COLOR[EPoliticalPartyId.KMT])
         .selectAll()
-        .data(voteCities)
+        .data(voteAreas)
         .join('rect')
-        .attr('x', (d) => x(d.candidates[0].voteRate))
-        .attr('y', (d) => y(d.city) as number)
+        .attr('x', (d) => x(d.candidate[0].voteRate))
+        .attr('y', (d) => y(d.area) as number)
         .attr(
           'width',
           (d) =>
             x(100) -
-            (x(d.candidates[2].voteRate + d.candidates[0].voteRate) + x(0)),
+            (x(d.candidate[2].voteRate + d.candidate[0].voteRate) + x(0)),
         )
         .attr('height', y.bandwidth() * 0.5)
         .attr('transform', 'translate(0, 8)');
@@ -264,11 +293,11 @@ export const VoteBar = ({
         .append('g')
         .attr('fill', POLITICAL_PARTY_COLOR[EPoliticalPartyId.PFP])
         .selectAll()
-        .data(voteCities)
+        .data(voteAreas)
         .join('rect')
-        .attr('x', (d) => x(100) - x(d.candidates[2].voteRate))
-        .attr('y', (d) => y(d.city) as number)
-        .attr('width', (d) => x(d.candidates[2].voteRate))
+        .attr('x', (d) => x(100) - x(d.candidate[2].voteRate))
+        .attr('y', (d) => y(d.area) as number)
+        .attr('width', (d) => x(d.candidate[2].voteRate))
         .attr('height', y.bandwidth() * 0.5)
         .attr('transform', 'translate(0, 8)');
 
@@ -325,7 +354,7 @@ export const VoteBar = ({
         voteRateChartSvg?.parentElement?.removeChild(chartNode);
       }
     };
-  }, []);
+  }, [voteAreas, politicalPartyColor, politicalPartyId, cityId, townId]);
 
   return <div ref={svgRef} />;
 };

@@ -2,6 +2,7 @@
   "1": {
     "id": 1,
     "candidateNumber": "①",
+    "politicalPartyId": "PFP",
     "politicalPartyName": "美丁美黨",
     "presidentName": "喵夫人",
     "vicePresidentName": "和平喵",
@@ -15,6 +16,7 @@
   "2": {
     "id": 2,
     "candidateNumber": "②",
+    "politicalPartyId": "KMT",
     "politicalPartyName": "麥當黨",
     "presidentName": "橘博士",
     "vicePresidentName": "新貴貓",
@@ -28,6 +30,7 @@
   "3": {
     "id": 3,
     "candidateNumber": "③",
+    "politicalPartyId": "DPP",
     "politicalPartyName": "丁丁黨",
     "presidentName": "喵先生",
     "vicePresidentName": "虎斑王",

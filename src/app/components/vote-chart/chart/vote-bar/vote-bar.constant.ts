@@ -65,6 +65,12 @@ export const ALL_POLITICAL_PARTY_VOTE_VILLAGES: IAllPoliticalPartyVoteVillage[] 
   });
 
 // 城市
+export const VOTE_CITIES = ALL_POLITICAL_PARTY_VOTE_CITIES.map((city) => ({
+  id: city.id,
+  city: city.city,
+  candidate: city.candidates,
+}));
+
 // 所有城市的投票狀況 - 民進黨
 const DPP_VOTE_CITIES: IVoteCity[] = ALL_POLITICAL_PARTY_VOTE_CITIES.map(
   (city) => ({
@@ -151,6 +157,11 @@ export const ALL_POLITICAL_PARTY_VOTE_TOWNS_DATA = {
 };
 
 // 村里
+const VOTE_VILLAGES = ALL_POLITICAL_PARTY_VOTE_VILLAGES.map((village) => ({
+  id: village.id,
+  village: village.village,
+}));
+
 // 所有村里的投票狀況 - 民進黨
 const DPP_VOTE_VILLAGES: IVoteVillage[] = ALL_POLITICAL_PARTY_VOTE_VILLAGES.map(
   (village) => ({
