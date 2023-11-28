@@ -1,7 +1,7 @@
 <div align="center">
-<a href="https://overtime-power-election-map.zeabur.app/" target="_blank"><img src="https://github.com/CHIN-HAN/f2e2023_election_map/blob/main/public/img/Logo.png?raw=true" alt="election2020" width="200"/></a>
-<br/>
-<span><a href="#Intro">作品說明</a></span> | <span><a href="#System">系統說明</a></span> | <span><a href="#Folder">資料夾說明</a></span> | <span><a href="#Tech">使用技術</a></span> | <span><a href="#Service">第三方服務</a></span> | <span><a href="#Team">團隊</a></span>
+  <a href="https://overtime-power-election-map.zeabur.app/" target="_blank"><img src="https://github.com/CHIN-HAN/f2e2023_election_map/blob/main/public/img/Logo.png?raw=true" alt="election2020" width="200"/></a>
+  <br/>
+  <span><a href="#Intro">作品說明</a></span> | <span><a href="#System">系統說明</a></span> | <span><a href="#Folder">資料夾說明</a></span> | <span><a href="#Tech">使用技術</a></span> | <span><a href="#Service">第三方服務</a></span> | <span><a href="#Team">團隊</a></span>
 </div>
 
 <h2 id="Intro">作品說明</h2>
@@ -18,6 +18,19 @@
 </ul>
 
 <h2 id="Folder">資料夾說明</h2>
+
+<ul>
+  <li>public: 圖片、選舉資料、地圖資料</li>
+  <li>src
+    <ul>
+      <li>app - 頁面以及頁面所需要的東西</li>
+      <li>components - 元件 & shadcn 元件</li>
+      <li>lib - 共用 functions</li>
+      </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="Tech">使用技術</h2>
 <ul>
@@ -40,4 +53,3 @@
 <p>前端工程師/ PG</p>
 <p>前端工程師/ yijay</p>
 <p>前端工程師/ zzuhann</p>
-
