@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import candidateInfo from '../../public/vote-data/candidateDetail.json';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { EPoliticalPartyId } from './constants';
 
 const candidateArr = Object.values(candidateInfo);
 
@@ -25,6 +26,7 @@ function Home() {
           <PersonCard
             key={candidate.id}
             id={candidate.id.toString()}
+            politicalPartyId={candidate.politicalPartyId as EPoliticalPartyId}
             politicalPartyName={candidate.politicalPartyName}
             candidateNumber={candidate.candidateNumber}
             presidentName={candidate.presidentName}

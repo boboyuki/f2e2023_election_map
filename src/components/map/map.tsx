@@ -271,7 +271,6 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
       .on('click', function (event, d) {
         clickTransition(event, d);
         setNextLevel(level);
-        console.log(d.properties?.['TOWNCODE']);
         handleSelectArea(
           d.properties?.['COUNTYCODE'],
           d.properties?.['TOWNCODE'] || '',

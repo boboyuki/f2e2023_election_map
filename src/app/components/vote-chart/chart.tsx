@@ -13,10 +13,10 @@ export const Chart = ({
   townId?: string;
 }) => {
   const city = TAIWAN_AREA_JSON.cities.find(
-    ({ id }) => id.split('-').join() === cityId,
+    ({ id }) => id.split('-').join('') === cityId,
   )?.city;
   const town = TAIWAN_AREA_JSON.towns.find(
-    ({ id }) => id.split('-').join() === townId,
+    ({ id }) => id.split('-').join('') === townId,
   )?.town;
   const areas = ['全國', city, town].filter((area) => !!area);
   const areaTitle = areas.join(' > ');
