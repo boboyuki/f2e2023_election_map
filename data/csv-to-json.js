@@ -267,7 +267,7 @@ async function generateVoteDetail() {
       }
       // 民進黨
       const dppCandidates = prev.filter(
-        ({ candidateId }) => candidateId === '1002',
+        ({ candidateId }) => candidateId === '3',
       );
       const dppCandidate = dppCandidates.reduce((prev, curr, i) => {
         const dppCandidatesLen = dppCandidates.length;
@@ -280,14 +280,14 @@ async function generateVoteDetail() {
               ) / 100
             : (prev?.voteRate || 0) + curr.voteRate;
         return {
-          ...CANDIDATE_DETAIL_JSON['1002'],
+          ...CANDIDATE_DETAIL_JSON['3'],
           voteCount,
           voteRate,
         };
       }, {});
       // 國民黨
       const kmtCandidates = prev.filter(
-        ({ candidateId }) => candidateId === '1001',
+        ({ candidateId }) => candidateId === '2',
       );
       const kmtCandidate = kmtCandidates.reduce((prev, curr, i) => {
         const kmtCandidatesLen = kmtCandidates.length;
@@ -300,14 +300,14 @@ async function generateVoteDetail() {
               ) / 100
             : (prev?.voteRate || 0) + curr.voteRate;
         return {
-          ...CANDIDATE_DETAIL_JSON['1001'],
+          ...CANDIDATE_DETAIL_JSON['2'],
           voteCount,
           voteRate,
         };
       }, {});
       // 親民黨
       const pfpCandidates = prev.filter(
-        ({ candidateId }) => candidateId === '1000',
+        ({ candidateId }) => candidateId === '1',
       );
       const pfpCandidate = pfpCandidates.reduce((prev, curr, i) => {
         const pfpCandidatesLen = pfpCandidates.length;
@@ -320,7 +320,7 @@ async function generateVoteDetail() {
               ) / 100
             : (prev?.voteRate || 0) + curr.voteRate;
         return {
-          ...CANDIDATE_DETAIL_JSON['1000'],
+          ...CANDIDATE_DETAIL_JSON['1'],
           voteCount,
           voteRate,
         };
