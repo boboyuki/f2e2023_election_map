@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+<a href="https://overtime-power-election-map.zeabur.app/" target="_blank"><img src="https://github.com/CHIN-HAN/f2e2023_election_map/blob/main/public/img/Logo.png?raw=true" alt="election2020" width="200"/></a>
+<br/>
+<span><a href="#Intro">作品說明</a></span> | <span><a href="#System">系統說明</a></span> | <span><a href="#Folder">資料夾說明</a></span> | <span><a href="#Tech">使用技術</a></span> | <span><a href="#Service">第三方服務</a></span> | <span><a href="#Team">團隊</a></span>
+</div>
 
-## Getting Started
+<h2 id="Intro">作品說明</h2>
 
-First, run the development server:
+<p>來自平行時空的貓貓國在 2020 年進行總統大選，這個即時開票地圖紀錄了喵夫人、橘博士和喵先生在 2020 年大選的政見以及投票結果。透過首頁的候選人介紹，可以得知該年度由哪隻貓貓當選、以及他們的政見。進入開票地圖，可以與地圖進行互動，透過地圖以及統計圖表得知全台、縣市以及村里的各政黨得票分佈。</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<h2 id="System">系統說明</h2>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<ul>
+  <li>安裝依賴檔 pnpm i --frozen-lockfile</li>
+  <li>Node.js 版本 v20</li>
+  <li>pnpm 版本需 v8 以上</li>
+  <li>專案運行方式 pnpm dev</li>
+</ul>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<h2 id="Folder">資料夾說明</h2>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<h2 id="Tech">使用技術</h2>
+<ul>
+  <li><span><picture><img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="nextjs"/></picture></span></li>
+  <li><span><picture><img src="https://img.shields.io/badge/d3%20js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white" alt="d3"/></picture></span></li>
+  <li><span><picture><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="tailwind"/></picture></span></li>
+  <li><span>shadcn</span></li>
+  <li><span>particles.js</span></li>
+  <li><span>GeoJSON</span></li>
+</ul>
 
-## Learn More
+<h2 id="Service">第三方服務</h2>
+<ul>
+  <li>部署：zeabur</li>
+  <li>政府 2020 大選資料</li>
+</ul>
 
-To learn more about Next.js, take a look at the following resources:
+<h2 id="Team">團隊</h2>
+<p>UI/UX 設計師/ Jase</p>
+<p>前端工程師/ PG</p>
+<p>前端工程師/ yijay</p>
+<p>前端工程師/ zzuhann</p>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
