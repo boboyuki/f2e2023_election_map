@@ -2,6 +2,7 @@ import { numberWithCommas } from '@/lib/utils';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { Icon } from '@iconify/react';
+import Link from 'next/link';
 
 const PersonCard = ({
   politicalPartyName,
@@ -137,8 +138,9 @@ const PersonCard = ({
         <Button
           className="bg-white bg-opacity-40 text-primary hover:text-white text-xl"
           size="lg"
+          asChild
         >
-          查看得票分佈 →
+          <Link href="/dashboard">查看得票分佈 →</Link>
         </Button>
       </div>
     </div>
