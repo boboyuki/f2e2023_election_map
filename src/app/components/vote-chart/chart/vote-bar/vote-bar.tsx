@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import * as D3 from 'd3'
-import { useEffect, useRef } from 'react'
-import { EPoliticalPartyId, POLITICAL_PARTY_COLOR } from '@/app/constants'
+import * as D3 from 'd3';
+import { useEffect, useRef } from 'react';
+import { EPoliticalPartyId, POLITICAL_PARTY_COLOR } from '@/app/constants';
 import {
   ALL_POLITICAL_PARTY_VOTE_CITIES,
   ALL_POLITICAL_PARTY_VOTE_CITIES_DATA,
   ALL_POLITICAL_PARTY_VOTE_TOWNS_DATA,
   ALL_POLITICAL_PARTY_VOTE_VILLAGES_DATA,
-} from './vote-bar.constant'
-import { IVoteArea } from './vote-bar.type'
+} from './vote-bar.constant';
+import { IVoteArea } from './vote-bar.type';
 
 function rightRoundedRect(
   x: number,
@@ -46,7 +46,7 @@ function rightRoundedRect(
     'h' +
     (radius - width) +
     'z'
-  )
+  );
 }
 
 export const VoteBar = ({
@@ -54,15 +54,15 @@ export const VoteBar = ({
   cityId,
   townId,
 }: {
-  politicalPartyId?: EPoliticalPartyId
-  cityId?: string
-  townId?: string
+  politicalPartyId?: EPoliticalPartyId;
+  cityId?: string;
+  townId?: string;
 }) => {
-  const svgRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<HTMLDivElement>(null);
   // 政黨顏色
   const politicalPartyColor = politicalPartyId
     ? POLITICAL_PARTY_COLOR[politicalPartyId]
-    : '#FFF'
+    : '#FFF';
   // 所有城市投票資料
   const voteCities: IVoteArea[] = politicalPartyId
     ? ALL_POLITICAL_PARTY_VOTE_CITIES_DATA[politicalPartyId].map((city) => ({
@@ -70,7 +70,7 @@ export const VoteBar = ({
         candidate: city.candidate,
         area: city.city,
       }))
-    : []
+    : [];
   // 該城市中的鄉鎮區投票資料
   const voteTowns: IVoteArea[] =
     politicalPartyId && cityId
@@ -81,28 +81,30 @@ export const VoteBar = ({
             candidate: town.candidate,
             area: town.town,
           }))
-      : []
+      : [];
   // 該城市鄉鎮區中的村里投票資料
   const voteVillages: IVoteArea[] =
     politicalPartyId && townId
       ? ALL_POLITICAL_PARTY_VOTE_VILLAGES_DATA[politicalPartyId]
-          .filter((voteVillage) => voteVillage.id.includes(townId))
+          .filter((voteVillage) =>
+            voteVillage.id.split('-').join().includes(townId),
+          )
           .map((village) => ({
             id: village.id,
             candidate: village.candidate,
             area: village.village,
           }))
-      : []
+      : [];
   // 選定城市 or 鄉鎮區之投票資料
-  const voteAreas = townId ? voteVillages : cityId ? voteTowns : voteCities
+  const voteAreas = townId ? voteVillages : cityId ? voteTowns : voteCities;
 
   useEffect(() => {
-    const marginTop = 30
-    const marginRight = 20
-    const marginBottom = 10
-    const marginLeft = 60
-    const width = 928
-    const barHeight = voteAreas?.length > 50 ? 25 : 40
+    const marginTop = 30;
+    const marginRight = 20;
+    const marginBottom = 10;
+    const marginLeft = 60;
+    const width = 928;
+    const barHeight = voteAreas?.length > 50 ? 25 : 40;
     // const barHeight = 25
     const height =
       Math.ceil(
@@ -113,7 +115,7 @@ export const VoteBar = ({
           barHeight,
       ) +
       marginTop +
-      marginBottom
+      marginBottom;
 
     /* Create the SVG container. */
     const svg = D3.create('svg')
@@ -121,7 +123,7 @@ export const VoteBar = ({
       .attr('height', height)
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto; font: 10px sans-serif;')
-      .attr('id', 'vote-rate-chart')
+      .attr('id', 'vote-rate-chart');
 
     /* 產生單一政黨的長條圖 */
     const generateVoteBarById = () => {
@@ -132,11 +134,11 @@ export const VoteBar = ({
         //   0,
         //   D3.max(voteCities, (d) => d.candidate?.voteRate) as number,
         // ])
-        .range([marginLeft, width - marginRight])
+        .range([marginLeft, width - marginRight]);
       const y = D3.scaleBand()
         .domain(D3.map(voteAreas, (d) => d.area))
         .rangeRound([marginTop, height - marginBottom])
-        .padding(0.1)
+        .padding(0.1);
 
       /* Append a rect for each candidate in each city. */
       svg
@@ -150,7 +152,7 @@ export const VoteBar = ({
         .attr('y', (d) => y(d.area) as number)
         .attr('width', (d) => x(100) - x(0))
         .attr('height', y.bandwidth() * 0.5)
-        .attr('transform', 'translate(0, 8)')
+        .attr('transform', 'translate(0, 8)');
       // .attr('rx', 8)
       // .attr('ry', 8)
       svg
@@ -163,7 +165,7 @@ export const VoteBar = ({
         .attr('y', (d) => y(d.area) as number)
         .attr('width', (d) => x(d.candidate?.voteRate || 0) - x(0))
         .attr('height', y.bandwidth() * 0.5)
-        .attr('transform', 'translate(0, 8)')
+        .attr('transform', 'translate(0, 8)');
       // .attr('rx', '5')
       // .attr('ry', '5')
 
@@ -202,12 +204,12 @@ export const VoteBar = ({
         .call(D3.axisLeft(y).tickSizeOuter(0))
         .style('font-size', '16px')
         .call((g) => g.select('.domain').remove()) // 刪除 y 座標軸的縱線
-        .call((g) => g.selectAll('line').remove()) // 刪除 y 座標軸的底線
-    }
+        .call((g) => g.selectAll('line').remove()); // 刪除 y 座標軸的底線
+    };
 
     /* 產生所有政黨的長條圖 */
     const generateAllPoliticalPartyVoteBar = () => {
-      const voteCities = ALL_POLITICAL_PARTY_VOTE_CITIES
+      const voteCities = ALL_POLITICAL_PARTY_VOTE_CITIES;
 
       /* create the scales */
       const x = D3.scaleLinear()
@@ -216,11 +218,11 @@ export const VoteBar = ({
         //   0,
         //   D3.max(voteCities, (d) => d.candidate?.voteRate) as number,
         // ])
-        .range([marginLeft, width - marginRight])
+        .range([marginLeft, width - marginRight]);
       const y = D3.scaleBand()
         .domain(D3.map(voteCities, (d) => d.city))
         .rangeRound([marginTop, height - marginBottom])
-        .padding(0.1)
+        .padding(0.1);
       // .arguments('font-size', '20px')
 
       /* Append a rect for each candidate in each city. */
@@ -235,7 +237,7 @@ export const VoteBar = ({
         .attr('y', (d) => y(d.city) as number)
         .attr('width', (d) => x(d.candidates[0]?.voteRate || 0) - x(0))
         .attr('height', y.bandwidth() * 0.5)
-        .attr('transform', 'translate(0, 8)')
+        .attr('transform', 'translate(0, 8)');
       // .attr('rx', '5')
       // .attr('ry', '5')
       /* 國民黨 */
@@ -254,7 +256,7 @@ export const VoteBar = ({
             (x(d.candidates[2].voteRate + d.candidates[0].voteRate) + x(0)),
         )
         .attr('height', y.bandwidth() * 0.5)
-        .attr('transform', 'translate(0, 8)')
+        .attr('transform', 'translate(0, 8)');
       // .attr('rx', '5')
       // .attr('ry', '5')
       /* 親民黨 */
@@ -268,7 +270,7 @@ export const VoteBar = ({
         .attr('y', (d) => y(d.city) as number)
         .attr('width', (d) => x(d.candidates[2].voteRate))
         .attr('height', y.bandwidth() * 0.5)
-        .attr('transform', 'translate(0, 8)')
+        .attr('transform', 'translate(0, 8)');
 
       /* Append a label for each candidate's vote rate. */
       // svg
@@ -305,25 +307,25 @@ export const VoteBar = ({
         .call(D3.axisLeft(y).tickSizeOuter(0))
         .style('font-size', '16px')
         .call((g) => g.select('.domain').remove()) // 刪除 y 座標軸的縱線
-        .call((g) => g.selectAll('line').remove()) // 刪除 y 座標軸的底線
-    }
+        .call((g) => g.selectAll('line').remove()); // 刪除 y 座標軸的底線
+    };
 
     politicalPartyId
       ? generateVoteBarById()
-      : generateAllPoliticalPartyVoteBar()
+      : generateAllPoliticalPartyVoteBar();
 
-    const chartNode = svg.node()
+    const chartNode = svg.node();
     if (svgRef.current && chartNode) {
-      svgRef.current.appendChild(chartNode)
+      svgRef.current.appendChild(chartNode);
     }
 
     return () => {
       if (chartNode) {
-        const voteRateChartSvg = document.getElementById('vote-rate-chart')
-        voteRateChartSvg?.parentElement?.removeChild(chartNode)
+        const voteRateChartSvg = document.getElementById('vote-rate-chart');
+        voteRateChartSvg?.parentElement?.removeChild(chartNode);
       }
-    }
-  }, [])
+    };
+  }, []);
 
-  return <div ref={svgRef} />
-}
+  return <div ref={svgRef} />;
+};

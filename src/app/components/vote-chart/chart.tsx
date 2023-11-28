@@ -1,3 +1,4 @@
+'use client';
 import { EPoliticalPartyId } from '@/app/constants';
 import { VoteBar } from './chart/vote-bar/vote-bar';
 import TAIWAN_AREA_JSON from '../../../../public/vote-data/taiwanArea.json';
@@ -11,8 +12,12 @@ export const Chart = ({
   cityId?: string;
   townId?: string;
 }) => {
-  const city = TAIWAN_AREA_JSON.cities.find(({ id }) => id === cityId)?.city;
-  const town = TAIWAN_AREA_JSON.towns.find(({ id }) => id === townId)?.town;
+  const city = TAIWAN_AREA_JSON.cities.find(
+    ({ id }) => id.split('-').join() === cityId,
+  )?.city;
+  const town = TAIWAN_AREA_JSON.towns.find(
+    ({ id }) => id.split('-').join() === townId,
+  )?.town;
   const areas = ['全國', city, town].filter((area) => !!area);
   const areaTitle = areas.join(' > ');
   return (
