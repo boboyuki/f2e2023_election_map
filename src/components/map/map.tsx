@@ -12,6 +12,7 @@ import {
 import { LEVEL } from '@/app/dashboard/lib/enum';
 import taiwanAreaJson from '../../../public/vote-data/taiwanArea.json';
 import voteDetailJson from '../../../public/vote-data/voteDetail.json';
+import { Button } from '../ui/button';
 const taiwanArea = JSON.parse(JSON.stringify(taiwanAreaJson));
 const voteDetail = JSON.parse(JSON.stringify(voteDetailJson));
 const levelMap: Record<LEVEL, string> = {
@@ -108,6 +109,13 @@ function getRestClassNames(level: LEVEL) {
 export default function Map() {
   const responsive = useResponsive();
   const map = useRef<SVGSVGElement>(null);
+  const zoom = d3
+    .zoom()
+    .scaleExtent([1, 8])
+    .on('zoom', function (event) {
+      const { transform } = event;
+      d3.select(map.current).selectAll('path').attr('transform', transform);
+    });
   const [mapData, setMapData] = useState<{
     county: Feature<Geometry, GeoJsonProperties>[];
     town: Feature<Geometry, GeoJsonProperties>[];
@@ -212,6 +220,26 @@ export default function Map() {
     }
   };
 
+  const reset = () => {
+    const mapContainer = d3.select(map.current);
+    const zoomTransform = mapContainer.node() as SVGSVGElement;
+    resetLevel();
+    if (map.current) {
+      mapContainer
+        .transition()
+        .duration(750)
+        .call(
+          zoom.transform as any,
+          d3.zoomIdentity,
+          d3
+            .zoomTransform(zoomTransform)
+            .invert([
+              map.current?.clientWidth / 2,
+              map.current?.clientHeight / 2,
+            ]),
+        );
+    }
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = async (
     mapEl: SVGSVGElement,
@@ -222,22 +250,11 @@ export default function Map() {
     if (!features.length) return;
     const width = mapEl.clientWidth;
     const height = mapEl.clientHeight;
-    const zoom = d3
-      .zoom()
-      .scaleExtent([1, 8])
-      .on('zoom', function (event) {
-        const { transform } = event;
-        d3.select(map.current)
-          .selectAll('path')
-          .attr('transform', transform)
-          .attr('stroke-width', 1 / transform.k);
-      });
     const mapContainer = d3
       .select(map.current)
       .attr('style', 'width: 100%; height: 100%')
-      .on('click', reset)
-      .call(zoom as any);
-    const projectMethod = d3.geoMercator().center([121.5, 24.3]).scale(scale);
+      .on('click', reset);
+    const projectMethod = d3.geoMercator().center([121, 24.3]).scale(scale);
     const pathGenerator = d3.geoPath().projection(projectMethod);
     const restClassNames = getRestClassNames(level);
     restClassNames.forEach((className) => {
@@ -282,18 +299,6 @@ export default function Map() {
           d3.pointer(event, mapContainer.node()),
         );
     }
-    function reset() {
-      const zoomTransform = mapContainer.node() as SVGSVGElement;
-      resetLevel();
-      mapContainer
-        .transition()
-        .duration(750)
-        .call(
-          zoom.transform as any,
-          d3.zoomIdentity,
-          d3.zoomTransform(zoomTransform).invert([width / 2, height / 2]),
-        );
-    }
   };
 
   useEffect(() => {
@@ -312,41 +317,48 @@ export default function Map() {
   }, [responsive]);
 
   return (
-    <svg
-      className="w-full h-full border-sky-100 border-2 md:border-none"
-      ref={map}
-    >
-      {mapData.county.length &&
-        mapData.county.map((item) => {
-          return (
-            <g
-              key={item.properties?.COUNTYCODE}
-              className="county"
-              id={item.properties?.COUNTYNAME}
-            ></g>
-          );
-        })}
-      {mapData.town.length &&
-        mapData.town.map((item) => {
-          return (
-            <g
-              key={item.properties?.TOWNCODE}
-              className="town"
-              id={item.properties?.TOWNNAME}
-            ></g>
-          );
-        })}
+    <>
+      {level !== LEVEL.COUNTY && (
+        <Button className="absolute m-3" onClick={reset}>
+          回全國
+        </Button>
+      )}
+      <svg
+        className="w-full h-full border-sky-100 border-2 md:border-none"
+        ref={map}
+      >
+        {mapData.county.length &&
+          mapData.county.map((item) => {
+            return (
+              <g
+                key={item.properties?.COUNTYCODE}
+                className="county"
+                id={item.properties?.COUNTYNAME}
+              ></g>
+            );
+          })}
+        {mapData.town.length &&
+          mapData.town.map((item) => {
+            return (
+              <g
+                key={item.properties?.TOWNCODE}
+                className="town"
+                id={item.properties?.TOWNNAME}
+              ></g>
+            );
+          })}
 
-      {mapData.village.length &&
-        mapData.village.map((item) => {
-          return (
-            <g
-              key={item.properties?.VILLCODE}
-              className="village"
-              id={item.properties?.VILLNAME}
-            ></g>
-          );
-        })}
-    </svg>
+        {mapData.village.length &&
+          mapData.village.map((item) => {
+            return (
+              <g
+                key={item.properties?.VILLCODE}
+                className="village"
+                id={item.properties?.VILLNAME}
+              ></g>
+            );
+          })}
+      </svg>
+    </>
   );
 }
