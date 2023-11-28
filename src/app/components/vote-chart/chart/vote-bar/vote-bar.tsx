@@ -66,42 +66,41 @@ export const VoteBar = ({
   const politicalPartyColor = politicalPartyId
     ? POLITICAL_PARTY_COLOR[politicalPartyId]
     : '#FFF';
-  // 所有城市投票資料
-  const voteCities: IVoteArea[] = politicalPartyId
-    ? ALL_POLITICAL_PARTY_VOTE_CITIES_DATA[politicalPartyId].map((city) => ({
-        id: city.id,
-        candidate: city.candidate,
-        area: city.city,
-      }))
-    : [];
-  // 該城市中的鄉鎮區投票資料
-  const voteTowns: IVoteArea[] =
-    politicalPartyId && cityId
-      ? ALL_POLITICAL_PARTY_VOTE_TOWNS_DATA[politicalPartyId]
-          .filter((voteTown) => voteTown.id.includes(cityId))
-          .map((town) => ({
-            id: town.id,
-            candidate: town.candidate,
-            area: town.town,
-          }))
-      : [];
-  // 該城市鄉鎮區中的村里投票資料
-  const voteVillages: IVoteArea[] =
-    politicalPartyId && townId
-      ? ALL_POLITICAL_PARTY_VOTE_VILLAGES_DATA[politicalPartyId]
-          .filter((voteVillage) =>
-            voteVillage.id.split('-').join('').includes(townId),
-          )
-          .map((village) => ({
-            id: village.id,
-            candidate: village.candidate,
-            area: village.village,
-          }))
-      : [];
-  // 選定城市 or 鄉鎮區之投票資料
-  const voteAreas = townId ? voteVillages : cityId ? voteTowns : voteCities;
 
   useEffect(() => {
+    // 所有城市投票資料
+    const voteCities: IVoteArea[] = politicalPartyId
+      ? ALL_POLITICAL_PARTY_VOTE_CITIES_DATA[politicalPartyId].map((city) => ({
+          id: city.id,
+          candidate: city.candidate,
+          area: city.city,
+        }))
+      : [];
+    // 該城市中的鄉鎮區投票資料
+    const voteTowns: IVoteArea[] =
+      politicalPartyId && cityId
+        ? ALL_POLITICAL_PARTY_VOTE_TOWNS_DATA[politicalPartyId]
+            .filter((voteTown) => voteTown.id.includes(cityId))
+            .map((town) => ({
+              id: town.id,
+              candidate: town.candidate,
+              area: town.town,
+            }))
+        : [];
+    // 該城市鄉鎮區中的村里投票資料
+    const voteVillages: IVoteArea[] =
+      politicalPartyId && townId
+        ? ALL_POLITICAL_PARTY_VOTE_VILLAGES_DATA[politicalPartyId]
+            .filter((voteVillage) => voteVillage.id.includes(townId))
+            .map((village) => ({
+              id: village.id,
+              candidate: village.candidate,
+              area: village.village,
+            }))
+        : [];
+    // 選定城市 or 鄉鎮區之投票資料
+    const voteAreas = townId ? voteVillages : cityId ? voteTowns : voteCities;
+
     const marginTop = 30;
     const marginRight = 20;
     const marginBottom = 10;
@@ -354,7 +353,7 @@ export const VoteBar = ({
         voteRateChartSvg?.parentElement?.removeChild(chartNode);
       }
     };
-  }, [voteAreas, politicalPartyColor, politicalPartyId, cityId, townId]);
+  }, [cityId, townId]);
 
   return <div ref={svgRef} />;
 };
