@@ -7,7 +7,15 @@ import { EPoliticalPartyId } from '../constants';
 
 export default function Home() {
   const searchParams = useSearchParams();
-  const politicalPartyId = searchParams.get('politicalPartyId');
+  const qsPoliticalPartyId = searchParams.get('politicalPartyId') || '';
+  const politicalPartyIds = [
+    EPoliticalPartyId.DPP,
+    EPoliticalPartyId.KMT,
+    EPoliticalPartyId.PFP,
+  ] as string[];
+  const politicalPartyId = politicalPartyIds.includes(qsPoliticalPartyId)
+    ? (qsPoliticalPartyId as EPoliticalPartyId)
+    : undefined;
   const [currentSelectArea, setCurrentSelectArea] = useState<{
     county: string;
     town: string;
@@ -17,6 +25,7 @@ export default function Home() {
     county: '',
     town: '',
     village: '',
+    politicalParty: politicalPartyId,
   });
   const [currentSelectAreaId, setCurrentSelectAreaId] = useState<{
     county: string;
@@ -27,6 +36,7 @@ export default function Home() {
     county: '',
     town: '',
     village: '',
+    politicalParty: politicalPartyId,
   });
   const handleSelectArea = (
     county: string,
