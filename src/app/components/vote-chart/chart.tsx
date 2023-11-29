@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { VoteBar } from './chart/vote-bar/vote-bar';
 import TAIWAN_AREA_JSON from '../../../../public/vote-data/taiwanArea.json';
 import CANDIDATE_DETAIL_JSON from '../../../../public/vote-data/candidateDetail.json';
+import { useRouter } from 'next/navigation';
 
 export const Chart = ({
   politicalPartyId,
@@ -23,6 +24,7 @@ export const Chart = ({
     politicalPartyId?: EPoliticalPartyId,
   ) => void;
 }) => {
+  const router = useRouter();
   const city = TAIWAN_AREA_JSON.cities.find(({ id }) => id === cityId)?.city;
   const town = TAIWAN_AREA_JSON.towns.find(({ id }) => id === townId)?.town;
   const areas = ['全國', city, town].filter((area) => !!area);
@@ -46,6 +48,7 @@ export const Chart = ({
               villageId.replaceAll('-', ''),
               EPoliticalPartyId.PFP,
             );
+            router.push(`dashboard?politicalPartyId=${EPoliticalPartyId.PFP}`);
           }}
         >
           <p
@@ -72,6 +75,7 @@ export const Chart = ({
               villageId.replaceAll('-', ''),
               EPoliticalPartyId.KMT,
             );
+            router.push(`dashboard?politicalPartyId=${EPoliticalPartyId.KMT}`);
           }}
         >
           <p
@@ -98,6 +102,7 @@ export const Chart = ({
               villageId.replaceAll('-', ''),
               EPoliticalPartyId.DPP,
             );
+            router.push(`dashboard?politicalPartyId=${EPoliticalPartyId.DPP}`);
           }}
         >
           <p

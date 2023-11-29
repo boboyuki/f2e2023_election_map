@@ -14,6 +14,7 @@ import taiwanAreaJson from '../../../public/vote-data/taiwanArea.json';
 import voteDetailJson from '../../../public/vote-data/voteDetail.json';
 import { Button } from '../ui/button';
 import { EPoliticalPartyId } from '@/app/constants';
+import { useRouter } from 'next/navigation';
 const taiwanArea = JSON.parse(JSON.stringify(taiwanAreaJson));
 const voteDetail = JSON.parse(JSON.stringify(voteDetailJson));
 const levelMap: Record<LEVEL, string> = {
@@ -112,7 +113,7 @@ type MapProps = {
     county: string;
     town: string;
     village: string;
-    politicalPartyId?: EPoliticalPartyId;
+    politicalParty?: EPoliticalPartyId;
   };
   handleSelectArea: (
     county: string,
@@ -123,6 +124,7 @@ type MapProps = {
 };
 
 export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
+  const router = useRouter();
   const responsive = useResponsive();
   const map = useRef<SVGSVGElement>(null);
   const zoom = d3
@@ -232,6 +234,7 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
     const zoomTransform = mapContainer.node() as SVGSVGElement;
     resetLevel();
     handleSelectArea('', '', '');
+    router.push('dashboard');
     if (map.current) {
       mapContainer
         .transition()
@@ -283,11 +286,16 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
           d.properties?.['COUNTYCODE'],
           d.properties?.['TOWNCODE'] || '',
           d.properties?.['VILLCODE'] || '',
-          currentSelectArea.politicalPartyId,
+          currentSelectArea.politicalParty,
         );
       })
       .append('title')
       .text((d) => getTitle(level, d));
+    router.push(
+      currentSelectArea.politicalParty
+        ? `dashboard?politicalPartyId=${currentSelectArea.politicalParty}`
+        : 'dashboard?',
+    );
     function clickTransition(event: any, d: any) {
       event.stopPropagation();
       const [[x0, y0], [x1, y1]] = pathGenerator.bounds(d);
