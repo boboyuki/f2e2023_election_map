@@ -12,14 +12,47 @@ export default function Home() {
     county: string;
     town: string;
     village: string;
+    politicalParty?: EPoliticalPartyId;
   }>({
     county: '',
     town: '',
     village: '',
   });
-  const handleSelectArea = (county: string, town: string, village: string) => {
+  const [currentSelectAreaId, setCurrentSelectAreaId] = useState<{
+    county: string;
+    town: string;
+    village: string;
+    politicalParty?: EPoliticalPartyId;
+  }>({
+    county: '',
+    town: '',
+    village: '',
+  });
+  const handleSelectArea = (
+    county: string,
+    town: string,
+    village: string,
+    politicalPartyId?: EPoliticalPartyId,
+  ) => {
     setCurrentSelectArea((prev) => {
-      return { ...prev, county, town, village };
+      return {
+        ...prev,
+        county,
+        town,
+        village,
+        politicalParty: politicalPartyId,
+      };
+    });
+    setCurrentSelectAreaId((prev) => {
+      const townId = town && town.replace(county, `${county}-`);
+      const villageId = village && village.replace(town, `${prev.town}-`);
+      return {
+        ...prev,
+        county,
+        town: townId,
+        village: villageId,
+        politicalParty: politicalPartyId,
+      };
     });
   };
 
@@ -34,11 +67,11 @@ export default function Home() {
       <div className="md:w-2/5 w-full md:h-screen pt-[100px]">
         <div className="p-10">
           <Chart
-            politicalPartyId={
-              (politicalPartyId as EPoliticalPartyId) || undefined
-            }
-            cityId={currentSelectArea.county}
-            townId={currentSelectArea.town}
+            politicalPartyId={currentSelectAreaId.politicalParty}
+            cityId={currentSelectAreaId.county}
+            townId={currentSelectAreaId.town}
+            villageId={currentSelectAreaId.village}
+            handleSelectArea={handleSelectArea}
           />
         </div>
       </div>
