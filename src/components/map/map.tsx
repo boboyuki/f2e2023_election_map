@@ -251,6 +251,15 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
         );
     }
   };
+
+  const resetToAllPolitical = () => {
+    handleSelectArea(
+      currentSelectArea.county,
+      currentSelectArea.town,
+      currentSelectArea.village,
+    );
+    router.push('/dashboard');
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = async (
     mapEl: SVGSVGElement,
@@ -335,8 +344,18 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
 
   return (
     <>
+      {currentSelectArea.politicalParty && (
+        <Button className="absolute m-3" onClick={resetToAllPolitical}>
+          看所有政黨分佈
+        </Button>
+      )}
       {level !== LEVEL.COUNTY && (
-        <Button className="absolute m-3" onClick={reset}>
+        <Button
+          className={`absolute m-3 ${
+            currentSelectArea.politicalParty ? 'mt-16' : ''
+          }`}
+          onClick={reset}
+        >
           回全國
         </Button>
       )}
