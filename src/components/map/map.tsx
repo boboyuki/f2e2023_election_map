@@ -12,15 +12,22 @@ import {
 import { LEVEL } from '@/app/dashboard/lib/enum';
 import taiwanAreaJson from '../../../public/vote-data/taiwanArea.json';
 import voteDetailJson from '../../../public/vote-data/voteDetail.json';
-import { Button } from '../ui/button';
+import countyDataJson from '../../../public/map-data/county.json';
+import townDataJson from '../../../public/map-data/town.json';
+import villageDataJson from '../../../public/map-data/village.json';
+import { Button } from '@/components/ui/button';
 import { EPoliticalPartyId } from '@/app/constants';
-import { useRouter } from 'next/navigation';
+
 const taiwanArea = JSON.parse(JSON.stringify(taiwanAreaJson));
 const voteDetail = JSON.parse(JSON.stringify(voteDetailJson));
-const levelMap: Record<LEVEL, string> = {
-  [LEVEL.COUNTY]: '/map-data/county.json',
-  [LEVEL.TOWN]: '/map-data/town.json',
-  [LEVEL.VILLAGE]: '/map-data/village.json',
+const countyData = JSON.parse(JSON.stringify(countyDataJson));
+const townData = JSON.parse(JSON.stringify(townDataJson));
+const villageData = JSON.parse(JSON.stringify(villageDataJson));
+
+const levelMap: Record<LEVEL, any> = {
+  [LEVEL.COUNTY]: countyData,
+  [LEVEL.TOWN]: townData,
+  [LEVEL.VILLAGE]: villageData,
 };
 const colorMap = {
   美丁美黨: '#FF8C22',
@@ -54,9 +61,8 @@ function getStyles(level: LEVEL) {
       const highestVoteCandidate = data?.candidates?.sort(
         (a: any, b: any) => b.voteRate - a.voteRate,
       )[0]?.politicalPartyName as string;
-      return `fill: ${
-        colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
-      }; stroke: #000; stroke-width: 1px; opacity: 1; visibility: visible;`;
+      return `fill: ${colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
+        }; stroke: #000; stroke-width: 1px; opacity: 1; visibility: visible;`;
     }
     if (level === LEVEL.TOWN) {
       const countyId = taiwanArea.cities.find(
@@ -69,9 +75,8 @@ function getStyles(level: LEVEL) {
       const highestVoteCandidate = data?.candidates?.sort(
         (a: any, b: any) => b.voteRate - a.voteRate,
       )[0]?.politicalPartyName as string;
-      return `fill: ${
-        colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
-      }; stroke: #000; stroke-width: 0.6px; opacity: 1; visibility: visible;`;
+      return `fill: ${colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
+        }; stroke: #000; stroke-width: 0.6px; opacity: 1; visibility: visible;`;
     }
     if (level === LEVEL.VILLAGE) {
       const countyId = taiwanArea.cities.find(
@@ -90,9 +95,8 @@ function getStyles(level: LEVEL) {
       const highestVoteCandidate = data?.candidates?.sort(
         (a: any, b: any) => b.voteRate - a.voteRate,
       )[0]?.politicalPartyName as string;
-      return `fill: ${
-        colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
-      }; stroke: #000; stroke-width: 0.3px; opacity: 1; visibility: visible;`;
+      return `fill: ${colorMap[highestVoteCandidate as unknown as keyof typeof colorMap]
+        }; stroke: #000; stroke-width: 0.3px; opacity: 1; visibility: visible;`;
     }
     return 'fill: #ccc; stroke: #000; stroke-width: 0.3px;';
   };
@@ -124,7 +128,6 @@ type MapProps = {
 };
 
 export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
-  const router = useRouter();
   const responsive = useResponsive();
   const map = useRef<SVGSVGElement>(null);
   const zoom = d3
@@ -149,6 +152,18 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
   const currentMapData = useMemo(() => {
     return mapData[level];
   }, [level, mapData]);
+
+  const countyMapData = useMemo(() => {
+    return mapData.county;
+  }, [mapData.county]);
+
+  const townMapData = useMemo(() => {
+    return mapData.town;
+  }, [mapData.town]);
+
+  const villageMapData = useMemo(() => {
+    return mapData.village;
+  }, [mapData.village]);
 
   const setMapScaleScope = (responsive: Record<string, boolean>) => {
     if (responsive['large']) {
@@ -181,9 +196,8 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
       village: string;
     },
   ) => {
-    const url = levelMap[level];
     if (level === LEVEL.COUNTY) {
-      const mapData = (await d3.json(url)) as unknown as any;
+      const mapData = (await levelMap[level]) as unknown as any;
       const geometries = topojson.feature(
         mapData,
         mapData.objects['TAIWAN'],
@@ -196,18 +210,15 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
       }));
     }
     if (level === LEVEL.TOWN) {
-      const mapData = (await d3.json(url)) as unknown as any;
+      const mapData = (await levelMap[level]) as unknown as any;
       const geometries = topojson.feature(
         mapData,
         mapData.objects['TAIWAN'],
       ) as unknown as FeatureCollection;
-      console.log(geometries, 'geo');
+
       const townMapData = geometries.features.filter((item) => {
-        console.log(item.properties);
-        console.log(currentSelectArea.county);
         return item.properties?.['COUNTYCODE'] === currentSelectArea.county;
       });
-      console.log(townMapData);
       setMapData((prev) => ({
         ...prev,
         town: townMapData,
@@ -215,7 +226,7 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
       }));
     }
     if (level === LEVEL.VILLAGE) {
-      const mapData = (await d3.json(url)) as unknown as any;
+      const mapData = (await levelMap[level]) as unknown as any;
       const geometries = topojson.feature(
         mapData,
         mapData.objects['TAIWAN'],
@@ -238,11 +249,10 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
     const zoomTransform = mapContainer.node() as SVGSVGElement;
     resetLevel();
     handleSelectArea('', '', '');
-    router.push('dashboard');
     if (map.current) {
       mapContainer
         .transition()
-        .duration(750)
+        .duration(250)
         .call(
           zoom.transform as any,
           d3.zoomIdentity,
@@ -262,7 +272,6 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
       currentSelectArea.town,
       currentSelectArea.village,
     );
-    router.push('/dashboard');
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = async (
@@ -282,7 +291,7 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
     const pathGenerator = d3.geoPath().projection(projectMethod);
     const restClassNames = getRestClassNames(level);
     restClassNames.forEach((className) => {
-      mapContainer.selectAll(`.${className} path`).style('opacity', '0.3');
+      mapContainer.selectAll(`.${className} path`).style('opacity', '0.15');
     });
     mapContainer
       .selectAll(`.${level}`)
@@ -304,17 +313,12 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
       })
       .append('title')
       .text((d) => getTitle(level, d));
-    router.push(
-      currentSelectArea.politicalParty
-        ? `dashboard?politicalPartyId=${currentSelectArea.politicalParty}`
-        : 'dashboard?',
-    );
     function clickTransition(event: any, d: any) {
       event.stopPropagation();
       const [[x0, y0], [x1, y1]] = pathGenerator.bounds(d);
       mapContainer
         .transition()
-        .duration(750)
+        .duration(250)
         .call(
           zoom.transform as any,
           d3.zoomIdentity
@@ -355,9 +359,8 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
       )}
       {level !== LEVEL.COUNTY && (
         <Button
-          className={`absolute m-3 ${
-            currentSelectArea.politicalParty ? 'mt-16' : ''
-          }`}
+          className={`absolute m-3 ${currentSelectArea.politicalParty ? 'mt-16' : ''
+            }`}
           onClick={reset}
         >
           回全國
@@ -367,8 +370,9 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
         className="w-full h-full border-sky-100 border-2 md:border-none"
         ref={map}
       >
-        {mapData.county.length &&
-          mapData.county.map((item) => {
+        {countyMapData.length &&
+          countyMapData.map((item) => {
+            console.log(item.properties, 'counties');
             return (
               <g
                 key={item.properties?.COUNTYCODE}
@@ -377,8 +381,8 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
               ></g>
             );
           })}
-        {mapData.town.length &&
-          mapData.town.map((item) => {
+        {townMapData.length &&
+          townMapData.map((item) => {
             return (
               <g
                 key={item.properties?.TOWNCODE}
@@ -388,8 +392,8 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
             );
           })}
 
-        {mapData.village.length &&
-          mapData.village.map((item) => {
+        {villageMapData.length &&
+          villageMapData.map((item) => {
             return (
               <g
                 key={item.properties?.VILLCODE}
