@@ -18,9 +18,9 @@ import { useRouter } from 'next/navigation';
 const taiwanArea = JSON.parse(JSON.stringify(taiwanAreaJson));
 const voteDetail = JSON.parse(JSON.stringify(voteDetailJson));
 const levelMap: Record<LEVEL, string> = {
-  [LEVEL.COUNTY]: '/map-data/counties.json',
-  [LEVEL.TOWN]: '/map-data/towns.json',
-  [LEVEL.VILLAGE]: '/map-data/villages.json',
+  [LEVEL.COUNTY]: '/map-data/county.json',
+  [LEVEL.TOWN]: '/map-data/town.json',
+  [LEVEL.VILLAGE]: '/map-data/village.json',
 };
 const colorMap = {
   美丁美黨: '#FF8C22',
@@ -201,9 +201,13 @@ export default function Map({ currentSelectArea, handleSelectArea }: MapProps) {
         mapData,
         mapData.objects['TAIWAN'],
       ) as unknown as FeatureCollection;
+      console.log(geometries, 'geo');
       const townMapData = geometries.features.filter((item) => {
+        console.log(item.properties);
+        console.log(currentSelectArea.county);
         return item.properties?.['COUNTYCODE'] === currentSelectArea.county;
       });
+      console.log(townMapData);
       setMapData((prev) => ({
         ...prev,
         town: townMapData,
